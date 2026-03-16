@@ -56,7 +56,6 @@ public sealed class CustomAuthorizationMiddleware
             return;
         }
 
-        jwt.
 
         hadJwt = true;
 

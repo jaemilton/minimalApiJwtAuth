@@ -1,5 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using minimalApiJwtAuth.Authentication;
+using System.Reflection.PortableExecutable;
+using System.Security;
 
 namespace MinimalApiJwtAuth;
 
@@ -17,7 +20,8 @@ public static class TodosData
 
 public static class TodoHandlers
 {
-    [CustomAuthorize(Roles = "GETALL")]
+    [HasPermission(policy: "default", headers: "x-usuario")]
+    //[CustomAuthorize(headers: "x-username")]
     public static IResult GetTodos()
     {
         return Results.Ok(TodosData.SampleTodos);
