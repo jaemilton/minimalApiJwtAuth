@@ -13,18 +13,17 @@ namespace minimalApiJwtAuth.Authentication
 
         // Constructor uses only attribute-legal parameter types (string).
         // 'policy' serves as the key for looking up the created PermissionRequirement at runtime.
-        public HasPermissionAttribute(string policy, string? headers = null, string? roles = null,  PermissionRequirementTypeEnum type = PermissionRequirementTypeEnum.OneOf)
+        public HasPermissionAttribute
+            (string? headers = null, 
+            string? roles = null,  
+            PermissionRequirementTypeEnum type = PermissionRequirementTypeEnum.OneOf): base(policy: Guid.NewGuid().ToString()) // Policy will be set to the provided 'policy' parameter below.
         {
-            if (string.IsNullOrWhiteSpace(policy))
-                throw new ArgumentException("Policy name must be provided", nameof(policy));
-
-            // Set the policy name so framework-authorize can see it.
-            Policy = policy;
+            if (string.IsNullOrWhiteSpace(Policy))
+                throw new ArgumentException("Policy name must be provided", nameof(Policy));
 
             // Create the PermissionRequirement at runtime and store it in the static dictionary.
             // This avoids passing complex objects as attribute constructor parameters.
-            var requirement = new PermissionRequirement(headers: headers, roles: roles, type: type);
-            Permissions[policy] = requirement;
+            Permissions.Add(Policy, new PermissionRequirement(headers: headers, roles: roles, type: type));
         }
     }
 }

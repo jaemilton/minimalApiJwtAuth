@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using minimalApiJwtAuth.Authentication;
+using System.Data;
 using System.Reflection.PortableExecutable;
 using System.Security;
 
@@ -20,13 +21,14 @@ public static class TodosData
 
 public static class TodoHandlers
 {
-    [HasPermission(policy: "default", headers: "x-usuario")]
+    [HasPermission(headers: "x-usuario")]
     //[CustomAuthorize(headers: "x-username")]
     public static IResult GetTodos()
     {
         return Results.Ok(TodosData.SampleTodos);
     }
 
+    [HasPermission(roles:"X")]
     public static IResult GetTodoById(int id)
     {
         var todo = TodosData.SampleTodos.FirstOrDefault(a => a.Id == id);

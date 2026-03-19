@@ -28,12 +28,14 @@ public class PermissionAuthorizationHandler
                 var identity = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, username) }, "X-Username");
                 httpContext.User = new ClaimsPrincipal(identity);
                 context.Succeed(requirement);
-               
+                await Task.CompletedTask;
+                return;
             }
 
             // No Authorization and no x-username -> not allowed
             context.Fail();
-            
+            await Task.CompletedTask;
+            return;
         }
 
 
